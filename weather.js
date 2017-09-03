@@ -4,7 +4,7 @@ const fetch = require('node-fetch')
 //天气接口
 class Weather {
     constructor() {
-        
+
     }
     //地区拼音：shanghai
     get(py) {
@@ -20,7 +20,7 @@ class Weather {
                             var t = $(this);
                             arr.push({
                                 text: t.parent().attr('title'), //天气文字
-                                pic: t.find('.pngtqico').attr('src'), //天气图片
+                                pic: t.find('.pngtqico').attr('src').replace('tianqibig','tqicon1'), //天气图片
                                 date: t.find('.wt1 .wtline').eq(0).text(), //（今天，明天，后天）日期
                                 temperature: t.find('.wt1 .wtline').eq(1).text() //摄氏度
                             })
