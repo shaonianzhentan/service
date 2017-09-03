@@ -1,15 +1,15 @@
 const fetch = require('node-fetch')
     , cheerio = require("cheerio");
-    
+
 //天气接口
 class Weather {
     constructor() {
-
+        
     }
-
-    get() {
+    //地区拼音：shanghai
+    get(py) {
         return new Promise((resolve, reject) => {
-            fetch('http://i.tianqi.com/index.php?c=code&id=12&icon=1&num=3&site=27')
+            fetch('http://i.tianqi.com/index.php?c=code&id=12&icon=1&num=3&site=27&py=' + py)
                 .then(res => res.text())
                 .then(body => {
                     try {

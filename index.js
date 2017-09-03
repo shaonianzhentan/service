@@ -22,7 +22,7 @@ app.get('/vipvideo', function (req, res) {
 
 var Weather = require('./weather')
 app.get('/weather', function (req, res) {
-    Weather.get().then(data => {
+    Weather.get(req.query.py).then(data => {
         res.json(data)
     }).catch(err => {
         res.status(505).send(err);
