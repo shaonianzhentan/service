@@ -1,0 +1,24 @@
+{
+  "name": "service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaonianzhentan/service.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shaonianzhentan/service/issues"
+  },
+  "homepage": "https://github.com/shaonianzhentan/service#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "form-data": "^2.3.1",
+    "node-fetch": "^1.7.2"
+  }
+}
