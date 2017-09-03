@@ -30,5 +30,17 @@ app.get('/weather', function (req, res) {
 });
 
 
+app.get('/sh', function (req, res) {
+    var user = req.query.user,
+        pwd = req.query.pwd;
+    require('./sh').login(user, pwd).then(t => t.sign()).then(data => {
+        res.json(data)
+    }).catch(err => {
+        console.error('错误信息：', err)
+        res.status(505).send(err)
+    })
+});
+
+
 app.listen(4000);
 console.log('@4000')
