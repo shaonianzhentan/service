@@ -11,7 +11,6 @@ class VipVideo {
     }
 
     geturl(link) {
-
         var PlayPageUrl = this.PlayPageUrl + link;
         return new Promise((resolve, reject) => {
             //获取API解析页面
@@ -71,6 +70,78 @@ class VipVideo {
             })
         })
 
+    }
+
+    youku(link) {
+
+        return new Promise((resolve, reject) => {
+
+            var mp = link.match(/id_(\S+)\.html/);
+
+            if (!mp) {
+                reject('youku链接不正确')
+                return;
+            }
+
+            var videoid = mp[1]
+
+            var utid = 'LqINEj7DmmICATzT3tJb8EFy'
+            var time = Date.parse(new Date())
+            let yurl = `https://ups.youku.com/ups/get.json?vid=${videoid}&ccode=0401&client_ip=192.168.1.1&utid=${utid}&client_ts=${time}`
+
+            fetch(yurl, {
+                method: "GET",
+                headers: {
+                    "referer": "http://v.youku2.com",
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
+            }).then(res => res.json()).then(body => {
+                var video = body.data.video;
+
+                var nextObj = body.data.videos.next;
+                var next = {
+                    id: nextObj.vid,
+                    title: nextObj.title,
+                    seq: nextObj.seq,
+                    link: 'http://v.youku.com/v_show/id_' + nextObj.encodevid + '.html'
+                }
+
+                var videos = [];
+                body.data.videos.list.forEach(ele => {
+                    videos.push({
+                        id: ele.vid,
+                        title: ele.title,
+                        seq: ele.seq,
+                        link: 'http://v.youku.com/v_show/id_' + ele.encodevid + '.html'
+                    })
+                })
+
+                var stream = [];
+                body.data.stream.forEach(ele => {
+                    stream.push({
+                        height: ele.height,
+                        width: ele.width,
+                        url: ele.m3u8_url,
+                        type: stream_type
+                    })
+                })
+
+                resolve({
+                    video: {
+                        id: video.videoid_play,
+                        title: video.title,
+                        logo: video.logo,
+                        link: video.weburl,
+                        stream: stream
+                    },
+                    list: videos,
+                    next: next
+                });
+            }).catch(ex => {
+                reject(ex)
+            })
+
+        })
     }
 }
 

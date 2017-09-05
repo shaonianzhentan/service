@@ -10,12 +10,22 @@ app.get('/', function (req, res) {
 var VipVideo = require('./VipVideo');
 app.get('/vipvideo', function (req, res) {
     var link = req.query.url;
+    var type = req.query.type;
     if (link) {
-        VipVideo.geturl(link).then(data => {
-            res.send(data)
-        }).catch(err => {
-            res.send('')
-        })
+
+        if (type == 'youku') {
+            VipVideo.youku(link).then(data => {
+                res.send(data)
+            }).catch(err => {
+                res.send('')
+            })
+        } else {
+            VipVideo.geturl(link).then(data => {
+                res.send(data)
+            }).catch(err => {
+                res.send('')
+            })
+        }
     }
     res.status(505).send('url参数错误');
 });
