@@ -28,8 +28,9 @@ app.get('/vipvideo', function (req, res) {
                 res.send('')
             })
         }
+    }else{
+        res.status(505).send('url参数错误');
     }
-    res.status(505).send('url参数错误');
 });
 
 var Weather = require('./weather')
