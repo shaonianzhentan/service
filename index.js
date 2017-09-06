@@ -28,10 +28,45 @@ app.get('/vipvideo', function (req, res) {
                 res.send('')
             })
         }
-    }else{
+    } else {
         res.status(505).send('url参数错误');
     }
 });
+
+var VipVideoSearch = require('./VipVideoSearch')
+app.get('/vipvideo/search/qq', function (req, res) {
+    var key = req.query.key;            
+    VipVideoSearch.qq(req.query.key).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.json([])
+    })
+});
+app.get('/vipvideo/search/youku', function (req, res) {
+    var key = req.query.key;            
+    VipVideoSearch.youku(req.query.key).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.json([])
+    })
+});
+app.get('/vipvideo/search/le', function (req, res) {
+    var key = req.query.key;            
+    VipVideoSearch.le(req.query.key).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.json([])
+    })
+});
+app.get('/vipvideo/search/mg', function (req, res) {
+    var key = req.query.key;            
+    VipVideoSearch.mg(req.query.key).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.json([])
+    })
+});
+
 
 var Weather = require('./weather')
 app.get('/weather', function (req, res) {
