@@ -113,7 +113,7 @@ class VipVideoSearch {
         })
 
     }
-    
+
     mg(key) {
 
         return new Promise((resolve, reject) => {
@@ -131,7 +131,7 @@ class VipVideoSearch {
                     try {
                         arr.push({
                             img: info.find('img').attr('src'),
-                            title: title,
+                            title: title.replace(/<\/?.+?>/g,""),
                             link: link,
                             source: '芒果TV'
                         });
@@ -150,7 +150,7 @@ class VipVideoSearch {
                             if (title != null) {
                                 arr.push({
                                     img: img,
-                                    title: title,
+                                    title: title.replace(/<\/?.+?>/g,""),
                                     link: $(this).attr('href'),
                                     source: '芒果TV'
                                 });
