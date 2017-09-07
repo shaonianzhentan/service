@@ -57,7 +57,11 @@ class VipVideo {
                             Referer: PlayPageUrl
                         }
                     }).then(res => res.json()).then(result => {
-                        resolve(result);
+                        try{
+                            resolve(result.url);
+                        }catch(ex){
+                            reject(ex);
+                        }                        
                     }).catch(err => {
                         reject(err);
                     });

@@ -33,6 +33,19 @@ app.get('/vipvideo', function (req, res) {
     }
 });
 
+app.get('/vipvideo/url', function (req, res) {
+    var link = req.query.url;
+    if (link) {
+        VipVideo.geturl(link).then(data => {
+            res.send(data)
+        }).catch(err => {
+            res.send('')
+        })
+    } else {
+        res.status(505).send('url参数错误');
+    }
+});
+
 var VipVideoSearch = require('./VipVideoSearch')
 app.get('/vipvideo/search/qq', function (req, res) {
     var key = req.query.key;            
