@@ -110,7 +110,7 @@ app.get('/vipvideo/list/mg', function (req, res) {
         res.json([])
     })
 });
-app.get('/vipvideo/list/sohu', function (req, res) {           
+app.get('/vipvideo/list/sohu', function (req, res) {
     VipVideoList.mg(req.query.url).then(data => {
         res.json(data)
     }).catch(err => {
