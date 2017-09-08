@@ -1,6 +1,7 @@
 var VipVideoList = require('../VipVideoList')
 
 /*
+
 VipVideoList.qq("https://v.qq.com/x/cover/jzhtr2cgy35ejz0/b00249eiunm.html?ptag=jimu.42142.zt").then(data => {
     console.log(data)    
 }).catch(err => {
@@ -40,8 +41,10 @@ VipVideoList.le("http://www.le.com/ptv/vplay/30794126.html").then(data => {
 })
 */
 
+/*
 VipVideoList.mg("http://www.mgtv.com/b/308004/4061843.html").then(data => {
     console.log(data)    
 }).catch(err => {
     console.error('错误信息',err)    
 })
+*/
