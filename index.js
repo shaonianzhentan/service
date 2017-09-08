@@ -48,7 +48,7 @@ app.get('/vipvideo/url', function (req, res) {
 
 var VipVideoSearch = require('./VipVideoSearch')
 app.get('/vipvideo/search/qq', function (req, res) {
-    var key = req.query.key;            
+    var key = req.query.key;
     VipVideoSearch.qq(req.query.key).then(data => {
         res.json(data)
     }).catch(err => {
@@ -56,7 +56,7 @@ app.get('/vipvideo/search/qq', function (req, res) {
     })
 });
 app.get('/vipvideo/search/youku', function (req, res) {
-    var key = req.query.key;            
+    var key = req.query.key;
     VipVideoSearch.youku(req.query.key).then(data => {
         res.json(data)
     }).catch(err => {
@@ -64,7 +64,7 @@ app.get('/vipvideo/search/youku', function (req, res) {
     })
 });
 app.get('/vipvideo/search/le', function (req, res) {
-    var key = req.query.key;            
+    var key = req.query.key;
     VipVideoSearch.le(req.query.key).then(data => {
         res.json(data)
     }).catch(err => {
@@ -72,7 +72,7 @@ app.get('/vipvideo/search/le', function (req, res) {
     })
 });
 app.get('/vipvideo/search/mg', function (req, res) {
-    var key = req.query.key;            
+    var key = req.query.key;
     VipVideoSearch.mg(req.query.key).then(data => {
         res.json(data)
     }).catch(err => {
@@ -81,50 +81,33 @@ app.get('/vipvideo/search/mg', function (req, res) {
 });
 
 var VipVideoList = require('./VipVideoList')
-app.get('/vipvideo/list/qq', function (req, res) {    
-    VipVideoList.qq(req.query.url).then(data => {
-        res.json(data)
-    }).catch(err => {
-        res.json([])
-    })
-});
-app.get('/vipvideo/list/youku', function (req, res) {
-    
-    VipVideoList.youku(req.query.url).then(data => {
-        res.json(data)
-    }).catch(err => {
-        res.json([])
-    })
-});
-app.get('/vipvideo/list/le', function (req, res) {    
-    VipVideoList.le(req.query.url).then(data => {
-        res.json(data)
-    }).catch(err => {
-        res.json([])
-    })
-});
-app.get('/vipvideo/list/mg', function (req, res) {           
-    VipVideoList.mg(req.query.url).then(data => {
-        res.json(data)
-    }).catch(err => {
-        res.json([])
-    })
-});
-app.get('/vipvideo/list/sohu', function (req, res) {
-    VipVideoList.mg(req.query.url).then(data => {
-        res.json(data)
-    }).catch(err => {
-        res.json([])
-    })
-});
-app.get('/vipvideo/list/iqiyi', function (req, res) {
-    VipVideoList.mg(req.query.url).then(data => {
-        res.json(data)
-    }).catch(err => {
-        res.json([])
-    })
-});
+app.get('/vipvideo/list', function (req, res) {
+    var link = req.query.url;
+    var obj = null;
+    if (link.indexOf('v.qq.com/x/cover/') > 0) {
+        obj = VipVideoList.qq(link)
+    } else if (link.indexOf('v.youku.com/v_show/') > 0) {
+        obj = VipVideoList.youku(link)
+    } else if (link.indexOf('www.iqiyi.com/v_') > 0) {
+        obj = VipVideoList.iqiyi(link)
+    } else if (link.indexOf('tv.sohu.com/') > 0) {
+        obj = VipVideoList.sohu(link)
+    } else if (link.indexOf('www.le.com/ptv/vplay/') > 0) {
+        obj = VipVideoList.le(link)
+    } else if (link.indexOf('www.mgtv.com/b/') > 0) {
+        obj = VipVideoList.mg(link)
+    }
 
+    if (obj != null) {
+        obj.then(data => {
+            res.json(data)
+        }).catch(err => {
+            res.json([])
+        })
+    }else{
+        res.status(505).send('该链接暂时无法解析')
+    }
+});
 
 var Weather = require('./weather')
 app.get('/weather', function (req, res) {
