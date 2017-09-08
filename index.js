@@ -80,6 +80,51 @@ app.get('/vipvideo/search/mg', function (req, res) {
     })
 });
 
+var VipVideoList = require('./VipVideoList')
+app.get('/vipvideo/list/qq', function (req, res) {    
+    VipVideoList.qq(req.query.url).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.json([])
+    })
+});
+app.get('/vipvideo/list/youku', function (req, res) {
+    
+    VipVideoList.youku(req.query.url).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.json([])
+    })
+});
+app.get('/vipvideo/list/le', function (req, res) {    
+    VipVideoList.le(req.query.url).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.json([])
+    })
+});
+app.get('/vipvideo/list/mg', function (req, res) {           
+    VipVideoList.mg(req.query.url).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.json([])
+    })
+});
+app.get('/vipvideo/list/sohu', function (req, res) {           
+    VipVideoList.mg(req.query.url).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.json([])
+    })
+});
+app.get('/vipvideo/list/iqiyi', function (req, res) {
+    VipVideoList.mg(req.query.url).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.json([])
+    })
+});
+
 
 var Weather = require('./weather')
 app.get('/weather', function (req, res) {
