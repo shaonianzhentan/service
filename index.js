@@ -118,6 +118,15 @@ app.get('/weather', function (req, res) {
     })
 });
 
+var Piano = require('./piano')
+app.get('/piano', function (req, res) {
+    Piano.get(req.query.args).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.status(505).send(err);
+    })
+});
+
 
 app.get('/sh', function (req, res) {
     var user = req.query.user,
