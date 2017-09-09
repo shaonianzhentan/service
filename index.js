@@ -117,7 +117,7 @@ app.get('/weather', function (req, res) {
         res.status(505).send(err);
     })
 });
-/*
+
 var Piano = require('./piano')
 app.get('/piano', function (req, res) {
     Piano.get(req.query.args).then(data => {
@@ -126,7 +126,6 @@ app.get('/piano', function (req, res) {
         res.status(505).send(err);
     })
 });
-*/
 
 app.get('/sh', function (req, res) {
     var user = req.query.user,
