@@ -39,6 +39,7 @@ app.get('/vipvideo/url', function (req, res) {
         VipVideo.geturl(link).then(data => {
             res.send(data)
         }).catch(err => {
+            console.error('错误信息',err);
             res.send('')
         })
     } else {
