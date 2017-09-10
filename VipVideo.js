@@ -3,14 +3,88 @@ const cheerio = require("cheerio")
     , FormData = require('form-data')
     , iconv = require('iconv-lite');
 
+var sign = require('./modules/CryptoJS')
+
 class VipVideo {
     constructor() {
         this.host = 'http://api.baiyug.cn/vip_p_0bc4/';
         this.PlayPageUrl = this.host + "index.php?url=";
         this.VideoPageUrl = this.host + "url.php"
+        this.UserAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1';
+    }
+
+    geturl2(url) {
+        return new Promise((resolve, reject) => {
+
+            var link = 'http://jx.10087.tv/biaoge/index.php?url=' + url;
+
+            fetch(link, {
+                headers: {
+                    Host: 'jx.10087.tv',
+                    'User-Agent': this.UserAgent,
+                    Referer: 'http://jx.10087.tv/'
+                }
+            }).then(res => res.text()).then(body => {
+
+                try {
+
+                    var $ = cheerio.load(body);
+
+                    var script = $('script').eq(6).html();
+                    var key = sign(script.match(/sign\('(\S+)'\)/)[1]);
+
+                    var form = new FormData();
+
+                    var args = {
+                        time: (new Date()).getTime(),
+                        key: key,
+                        url: url,
+                        type: '',
+                        cip: '192.168.0.1'
+                    }
+
+                    for (var k in args) {
+                        form.append(k, args[k]);
+                    }
+
+                    //获取实际播放地址路径
+                    fetch('http://jx.10087.tv/biaoge/api.php', {
+                        method: 'POST',
+                        body: form,
+                        headers: {
+                            Host: 'jx.10087.tv',
+                            Origin: 'http://jx.10087.tv',
+                            'User-Agent': this.UserAgent,
+                            Referer: link
+                        }
+                    }).then(res => res.json()).then(result => {
+                        try {
+                            resolve(result.url);
+                        } catch (ex) {
+                            reject(ex);
+                        }
+                    }).catch(err => {
+                        reject(err);
+                    });
+
+
+
+                } catch (err) {
+                    reject(err)
+                }
+
+            }).catch(err => {
+                reject(err)
+            })
+
+        })
     }
 
     geturl(link) {
+
+        return this.geturl2(link);
+
+
         var PlayPageUrl = this.PlayPageUrl + link;
         return new Promise((resolve, reject) => {
             //获取API解析页面
@@ -57,11 +131,11 @@ class VipVideo {
                             Referer: PlayPageUrl
                         }
                     }).then(res => res.json()).then(result => {
-                        try{
+                        try {
                             resolve(result.url);
-                        }catch(ex){
+                        } catch (ex) {
                             reject(ex);
-                        }                        
+                        }
                     }).catch(err => {
                         reject(err);
                     });
@@ -150,3 +224,8 @@ class VipVideo {
 }
 
 module.exports = new VipVideo()
+
+/*
+var v = new VipVideo()
+v.geturl2('http://v.youku.com/v_show/id_XMjkzNDEwMzM3Mg==.html').then(data => console.log(data)).catch(data => console.log(data))
+*/
