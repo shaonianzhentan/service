@@ -82,7 +82,7 @@ class VipVideo {
 
     geturl(link) {
 
-        return this.geturl2(link);
+        //return this.geturl2(link);
 
 
         var PlayPageUrl = this.PlayPageUrl + link;
