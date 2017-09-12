@@ -62,7 +62,7 @@ class VipVideo {
                             "from": "https://api.47ks.com/",
                             "mode": "phone"
                         }
-
+//有问题，还未解决
                         request.post({
                             url: 'https://api.47ks.com/config/webmain.php',
                             form: args
