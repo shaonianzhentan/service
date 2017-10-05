@@ -298,6 +298,7 @@ class VipVideo {
 
 module.exports = new VipVideo()
 
-
+/*
 var v = new VipVideo()
 v.geturl1('http://v.youku.com/v_show/id_XMjkzNDEwMzM3Mg==.html').then(data => console.log(data)).catch(data => console.log(data))
+*/
