@@ -9,6 +9,17 @@ app.get('/', function (req, res) {
 });
 
 
+var HttpNet = require('./HttpNet');
+app.get('/http/request', function (req, res) {
+    var op = decodeURIComponent(req.query.op);
+    HttpNet.request(op).then(data => {
+        res.send(data)
+    }).catch(data => {
+        res.send('')
+    })
+});
+
+
 var VipVideo = require('./VipVideo');
 app.get('/vipvideo', function (req, res) {
     var link = req.query.url;
@@ -39,7 +50,7 @@ app.get('/vipvideo/url', function (req, res) {
         VipVideo.geturl(link).then(data => {
             res.send(data)
         }).catch(err => {
-            console.error('错误信息',err);
+            console.error('错误信息', err);
             res.send('')
         })
     } else {
@@ -113,7 +124,7 @@ app.get('/vipvideo/list', function (req, res) {
         }).catch(err => {
             res.json([])
         })
-    }else{
+    } else {
         res.status(505).send('该链接暂时无法解析')
     }
 });
