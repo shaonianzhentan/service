@@ -80,6 +80,14 @@ app.get('/vipvideo/search/mg', function (req, res) {
         res.json([])
     })
 });
+app.get('/vipvideo/search/vipsp', function (req, res) {
+    var key = req.query.key;
+    VipVideoSearch.vipsp(req.query.key).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.json([])
+    })
+});
 
 var VipVideoList = require('./VipVideoList')
 app.get('/vipvideo/list', function (req, res) {

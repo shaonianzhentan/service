@@ -131,7 +131,7 @@ class VipVideoSearch {
                     try {
                         arr.push({
                             img: info.find('img').attr('src'),
-                            title: title.replace(/<\/?.+?>/g,""),
+                            title: title.replace(/<\/?.+?>/g, ""),
                             link: link,
                             source: '芒果TV'
                         });
@@ -150,7 +150,7 @@ class VipVideoSearch {
                             if (title != null) {
                                 arr.push({
                                     img: img,
-                                    title: title.replace(/<\/?.+?>/g,""),
+                                    title: title.replace(/<\/?.+?>/g, ""),
                                     link: $(this).attr('href'),
                                     source: '芒果TV'
                                 });
@@ -162,6 +162,46 @@ class VipVideoSearch {
                     }
 
                 });
+
+                resolve(arr);
+            }).catch(err => {
+                reject(err);
+            })
+        })
+
+
+    }
+
+
+
+
+    vipsp(key) {
+
+        return new Promise((resolve, reject) => {
+            key = decodeURIComponent(key);
+            fetch('http://www.vipsp.cc/so.html?wd=' + encodeURIComponent(key)).then(res => res.text()).then(body => {
+                let $ = cheerio.load(body)
+                    , arr = [];
+
+                $('.list .item').each(function () {
+                    var t = $(this),
+                        img = t.find(".cover img").attr('src'),
+                        title = t.find('.detail .title').text().trim() + t.find('.detail .star').text().trim(),
+                        link = t.find('.js-tongjic').attr('href');
+
+                    try {
+                        arr.push({
+                            img: img,
+                            title: title.replace(/<\/?.+?>/g, ""),
+                            link: link,
+                            source: '网络爬虫'
+                        });
+                    } catch (ex) {
+                        console.error(ex);
+                    }
+                });
+
+
 
                 resolve(arr);
             }).catch(err => {
