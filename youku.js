@@ -8,6 +8,64 @@ class YouKu {
 
     }
 
+    getvidoe(link) {
+        return new Promise((resolve, reject) => {
+
+            var mp = link.match(/id_(\S+)\.html/);
+
+            if (!mp) {
+                reject('youku链接不正确')
+                return;
+            }
+
+            var videoid = mp[1]
+
+            var utid = 'LqINEj7DmmICATzT3tJb8EFy'
+            var time = Date.parse(new Date())
+            let yurl = `https://ups.youku.com/ups/get.json?vid=${videoid}&ccode=0401&client_ip=192.168.1.1&utid=${utid}&client_ts=${time}`
+            //console.log(yurl);
+            fetch(yurl, {
+                method: "GET",
+                headers: {
+                    "referer": "http://v.youku2.com",
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
+            }).then(res => res.json()).then(body => {
+                var video = body.data.video;
+                //resolve(body);
+
+                //获取集数
+                var videos = [];
+                body.data.videos.list.forEach(ele => {
+                    videos.push({
+                        id: ele.vid,
+                        title: ele.title,
+                        seq: ele.seq,
+                        link: 'http://v.youku.com/v_show/id_' + ele.encodevid + '.html'
+                    })
+                })
+                //获取视频流
+                var stream = [];
+                body.data.stream[3].segs.forEach(ele => {
+                    stream.push(ele.cdn_url)
+                })
+
+                resolve({
+                    video: {
+                        title: video.title,
+                        link: video.weburl,
+                        stream: stream
+                    },
+                    list: videos
+                });
+            }).catch(ex => {
+                reject(ex)
+            })
+
+        })
+
+    }
+
     getlist(link) {
         return new Promise((resolve, reject) => {
 
