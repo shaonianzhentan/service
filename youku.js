@@ -46,9 +46,10 @@ class YouKu {
                 })
                 //获取视频流
                 var stream = [];
-                body.data.stream[3].segs.forEach(ele => {
-                    stream.push(ele.cdn_url)
-                })
+                //超高清
+                //body.data.stream[3].segs.forEach(ele => { stream.push(ele.cdn_url)  })
+                //高清
+                body.data.stream[4].segs.forEach(ele => { stream.push(ele.cdn_url)  })
 
                 resolve({
                     video: {
