@@ -129,6 +129,15 @@ app.get('/vipvideo/list', function (req, res) {
     }
 });
 
+var youku = require('./youku')
+app.get('/youku/list', function (req, res) {
+    youku.getlist(req.query.url).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.status(505).send(err);
+    })
+});
+
 var Weather = require('./weather')
 app.get('/weather', function (req, res) {
     Weather.get(req.query.py).then(data => {
