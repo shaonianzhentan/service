@@ -49,7 +49,7 @@ class YouKu {
                 //超高清
                 //body.data.stream[3].segs.forEach(ele => { stream.push(ele.cdn_url)  })
                 //高清
-                body.data.stream[4].segs.forEach(ele => { stream.push(ele.cdn_url)  })
+                body.data.stream[4].segs.forEach(ele => { stream.push(ele.cdn_url) })
 
                 resolve({
                     video: {
@@ -103,12 +103,14 @@ class YouKu {
                 var list = []
                 $(".panel .mr1").each(function () {
                     var t = $(this),
-                        quic = t.find('.quic');
+                        quic = t.find('.quic'),
+                        link = t.find('.title a').attr('href');
+                    if (link.indexOf('http://') < 0) link = 'http:' + link;
                     list.push({
                         title: quic.attr('alt'),
                         img: quic.attr('src'),
                         actor: t.find('.actor').text(),
-                        link: 'http:' + t.find('.title a').attr('href')
+                        link: link
                     })
                 })
 
