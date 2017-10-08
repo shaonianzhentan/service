@@ -45,17 +45,19 @@ class YouKu {
                     })
                 })
                 //获取视频流
-                var stream = [];
-                //超高清
-                //body.data.stream[3].segs.forEach(ele => { stream.push(ele.cdn_url)  })
-                //高清
-                body.data.stream[4].segs.forEach(ele => { stream.push(ele.cdn_url) })
+                var m3u8_url = body.data.stream[0].m3u8_url;
+                if (body.data.stream.length > 3) {
+                    //超高清
+                    //body.data.stream[3].segs.forEach(ele => { stream.push(ele.cdn_url)  })
+                    //高清
+                    m3u8_url = body.data.stream[4].m3u8_url
+                }
 
                 resolve({
                     video: {
                         title: video.title,
                         link: video.weburl,
-                        stream: stream
+                        m3u8_url: m3u8_url
                     },
                     list: videos
                 });
